@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxelane BD</title>
+
+<style>
+:root {
+  --bg: #0a0a0a;
+  --card: #111;
+  --neon: #00f5ff;
+  --text: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--neon);
+}
+
+.nav-links span {
+  margin: 0 15px;
+  cursor: pointer;
+}
+
+.cart-btn {
+  background: var(--neon);
+  color: #000;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Sections */
+.section {
+  display: none;
+  padding: 40px;
+}
+
+.active {
+  display: block;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h1 {
+  font-size: 50px;
+  color: var(--neon);
+}
+
+/* Products */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
+}
+
+.product {
+  background: var(--card);
+  padding: 15px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.product:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 20px var(--neon);
+}
+
+.product img {
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button {
+  background: var(--neon);
+  border: none;
+  padding: 8px;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* Cart */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+/* Checkout */
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: #222;
+  border: none;
+  color: white;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #000;
+  margin-top: 40px;
+}
+
+/* Modal Image */
+.modal {
+  display: none;
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal img {
+  width: 80%;
+  max-width: 400px;
+}
+
+/* Responsive */
+@media(max-width:600px){
+  .hero h1 {font-size: 30px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="logo">Luxelane BD</div>
+  <div class="nav-links">
+    <span onclick="showPage('home')">Home</span>
+    <span onclick="showPage('shop')">Shop</span>
+    <span onclick="showPage('cart')">Cart</span>
+  </div>
+  <div class="cart-btn" onclick="showPage('cart')">
+    🛒 <span id="count">0</span>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="section active">
+  <div class="hero">
+    <h1>Luxury Fashion Redefined</h1>
+    <p>Premium clothing for modern lifestyle</p>
+  </div>
+</div>
+
+<!-- SHOP -->
+<div id="shop" class="section">
+  <h2>Our Collection</h2>
+  <div class="products" id="products"></div>
+</div>
+
+<!-- CART -->
+<div id="cart" class="section">
+  <h2>Your Cart</h2>
+  <div id="cart-items"></div>
+  <h3>Total: ৳<span id="total">0</span></h3>
+  <button onclick="showPage('checkout')">Checkout</button>
+</div>
+
+<!-- CHECKOUT -->
+<div id="checkout" class="section">
+  <h2>Checkout</h2>
+  <input placeholder="Full Name">
+  <input placeholder="Phone Number">
+  <textarea placeholder="Address"></textarea>
+  <button onclick="alert('Order Placed!')">Place Order</button>
+</div>
+
+<footer>
+  © 2026 Luxelane BD | Premium Fashion
+</footer>
+
+<!-- Image Modal -->
+<div class="modal" id="modal" onclick="closeModal()">
+  <img id="modal-img">
+</div>
+
+<script>
+const products = [
+  {id:1,name:"Luxury Panjabi",price:1500,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"},
+  {id:2,name:"Streetwear Hoodie",price:2000,img:"https://images.unsplash.com/photo-1520975922323-4506c66a7df2"},
+  {id:3,name:"Classic Shirt",price:1200,img:"https://images.unsplash.com/photo-1521336575822-6da63fb45455"},
+  {id:4,name:"Denim Jacket",price:2500,img:"https://images.unsplash.com/photo-1495107334309-fcf20504a5ab"},
+  {id:5,name:"Minimal T-Shirt",price:800,img:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f"},
+  {id:6,name:"Premium Blazer",price:3500,img:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0"}
+];
+
+let cart = [];
+
+function showPage(page){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+}
+
+function renderProducts(){
+  let html="";
+  products.forEach(p=>{
+    html+=`
+      <div class="product">
+        <img src="${p.img}" onclick="openModal('${p.img}')">
+        <h3>${p.name}</h3>
+        <p>৳${p.price}</p>
+        <button onclick="addToCart(${p.id})">Add to Cart</button>
+      </div>
+    `;
+  });
+  document.getElementById("products").innerHTML=html;
+}
+
+function addToCart(id){
+  const p = products.find(x=>x.id===id);
+  cart.push(p);
+  updateCart();
+}
+
+function updateCart(){
+  let html="";
+  let total=0;
+
+  cart.forEach((item,i)=>{
+    total+=item.price;
+    html+=`
+      <div class="cart-item">
+        ${item.name} - ৳${item.price}
+        <span onclick="removeItem(${i})" style="cursor:pointer;color:red;">X</span>
+      </div>
+    `;
+  });
+
+  document.getElementById("cart-items").innerHTML=html;
+  document.getElementById("total").innerText=total;
+  document.getElementById("count").innerText=cart.length;
+}
+
+function removeItem(i){
+  cart.splice(i,1);
+  updateCart();
+}
+
+function openModal(img){
+  document.getElementById("modal").style.display="flex";
+  document.getElementById("modal-img").src=img;
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+renderProducts();
+</script>
+
+</body>
+</html>
