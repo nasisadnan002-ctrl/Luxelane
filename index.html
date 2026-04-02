@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luxelane BD - Premium</title>
+<title>Luxelane BD</title>
 
 <style>
 :root{
-  --bg:#050505;
-  --card:#0f0f0f;
-  --neon:linear-gradient(45deg,#00f5ff,#7b61ff);
+  --bg:#070707;
+  --card:#111;
+  --accent:#00f5ff;
+  --text:#fff;
 }
 
 *{
@@ -21,7 +22,7 @@
 
 body{
   background:var(--bg);
-  color:white;
+  color:var(--text);
 }
 
 /* NAVBAR */
@@ -31,32 +32,24 @@ body{
   top:0;
   display:flex;
   justify-content:space-between;
-  padding:15px 30px;
-  backdrop-filter:blur(15px);
+  padding:15px 25px;
   background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px);
   z-index:1000;
 }
 
 .logo{
-  font-size:20px;
   font-weight:bold;
-  background:var(--neon);
-  -webkit-background-clip:text;
-  color:transparent;
+  color:var(--accent);
 }
 
-.nav a{
-  margin:0 10px;
-  cursor:pointer;
-}
-
-.cart-icon{
+.cart-btn{
   cursor:pointer;
 }
 
 /* HERO */
 .hero{
-  height:100vh;
+  height:90vh;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -64,29 +57,13 @@ body{
 }
 
 .hero h1{
-  font-size:50px;
-  background:var(--neon);
-  -webkit-background-clip:text;
-  color:transparent;
+  font-size:48px;
+  color:var(--accent);
 }
 
 /* PRODUCTS */
 .container{
-  padding:100px 20px 40px;
-}
-
-.filters{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.filters button{
-  margin:5px;
-  padding:8px 15px;
-  background:#111;
-  border:none;
-  color:white;
-  cursor:pointer;
+  padding:100px 20px;
 }
 
 .products{
@@ -103,8 +80,8 @@ body{
 }
 
 .product:hover{
-  transform:translateY(-10px);
-  box-shadow:0 0 20px #00f5ff33;
+  transform:translateY(-8px);
+  box-shadow:0 0 15px #00f5ff33;
 }
 
 .product img{
@@ -112,12 +89,12 @@ body{
   border-radius:10px;
 }
 
-.product button{
+button{
   width:100%;
-  padding:8px;
+  padding:10px;
   margin-top:10px;
-  background:var(--neon);
   border:none;
+  background:var(--accent);
   cursor:pointer;
 }
 
@@ -131,7 +108,6 @@ body{
   background:#111;
   padding:20px;
   transition:.3s;
-  z-index:999;
 }
 
 .cart.active{right:0;}
@@ -144,32 +120,28 @@ body{
 
 /* CHECKOUT */
 .checkout{
-  display:none;
-  padding:100px 20px;
+  padding:30px;
 }
 
 input,textarea{
   width:100%;
   padding:10px;
-  margin:10px 0;
+  margin:8px 0;
   background:#222;
   border:none;
   color:white;
 }
 
-/* MODAL */
-.modal{
+/* TOAST */
+.toast{
   position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#000;
+  padding:10px 20px;
+  border-radius:20px;
   display:none;
-  justify-content:center;
-  align-items:center;
-  background:#000a;
-}
-
-.modal img{
-  width:300px;
 }
 
 /* FOOTER */
@@ -181,7 +153,7 @@ footer{
 
 /* MOBILE */
 @media(max-width:600px){
-  .hero h1{font-size:30px;}
+  .hero h1{font-size:28px;}
 }
 </style>
 </head>
@@ -190,23 +162,14 @@ footer{
 
 <div class="navbar">
   <div class="logo">Luxelane BD</div>
-  <div class="nav">
-    <a onclick="scrollToSection()">Shop</a>
-  </div>
-  <div class="cart-icon" onclick="toggleCart()">🛒 <span id="count">0</span></div>
+  <div class="cart-btn" onclick="toggleCart()">🛒 <span id="count">0</span></div>
 </div>
 
 <div class="hero">
-  <h1>Luxury Fashion Experience</h1>
+  <h1>Luxury That Defines You</h1>
 </div>
 
 <div class="container">
-  <div class="filters">
-    <button onclick="filter('all')">All</button>
-    <button onclick="filter('new')">New</button>
-    <button onclick="filter('popular')">Popular</button>
-  </div>
-
   <div class="products" id="products"></div>
 </div>
 
@@ -214,55 +177,46 @@ footer{
 <div class="cart" id="cart">
   <h2>Your Cart</h2>
   <div id="cartItems"></div>
+
+  <input id="coupon" placeholder="Coupon Code">
+  <button onclick="applyCoupon()">Apply Coupon</button>
+
   <h3>Total: ৳<span id="total">0</span></h3>
-  <button onclick="showCheckout()">Checkout</button>
+  <button onclick="checkout()">Checkout via WhatsApp</button>
 </div>
 
-<!-- CHECKOUT -->
-<div class="checkout" id="checkout">
-  <h2>Checkout</h2>
-  <input placeholder="Full Name" required>
-  <input placeholder="Phone Number" required>
-  <textarea placeholder="Address"></textarea>
-  <button onclick="placeOrder()">Place Order</button>
-</div>
+<!-- TOAST -->
+<div class="toast" id="toast">Added to cart</div>
 
-<!-- MODAL -->
-<div class="modal" id="modal" onclick="closeModal()">
-  <img id="modalImg">
-</div>
-
-<footer>© Luxelane BD Premium</footer>
+<footer>© Luxelane BD</footer>
 
 <script>
+let phone="8801XXXXXXXXX";
+
 let products=[
-{id:1,name:"Panjabi",price:1500,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf",cat:"new"},
-{id:2,name:"Hoodie",price:2000,img:"https://images.unsplash.com/photo-1520975922323-4506c66a7df2",cat:"popular"},
-{id:3,name:"Shirt",price:1200,img:"https://images.unsplash.com/photo-1521336575822-6da63fb45455",cat:"new"},
-{id:4,name:"Jacket",price:2500,img:"https://images.unsplash.com/photo-1495107334309-fcf20504a5ab",cat:"popular"},
-{id:5,name:"T-Shirt",price:800,img:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f",cat:"new"},
-{id:6,name:"Blazer",price:3500,img:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0",cat:"popular"}
+{id:1,name:"Luxury Panjabi",price:1500,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"},
+{id:2,name:"Hoodie",price:2000,img:"https://images.unsplash.com/photo-1520975922323-4506c66a7df2"},
+{id:3,name:"Shirt",price:1200,img:"https://images.unsplash.com/photo-1521336575822-6da63fb45455"},
+{id:4,name:"Jacket",price:2500,img:"https://images.unsplash.com/photo-1495107334309-fcf20504a5ab"},
+{id:5,name:"T-Shirt",price:800,img:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f"},
+{id:6,name:"Blazer",price:3500,img:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0"}
 ];
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let discount=0;
 
-function render(list=products){
+function render(){
   let html="";
-  list.forEach(p=>{
+  products.forEach(p=>{
     html+=`
     <div class="product">
-      <img src="${p.img}" onclick="openModal('${p.img}')">
+      <img src="${p.img}">
       <h3>${p.name}</h3>
       <p>৳${p.price}</p>
-      <button onclick="add(${p.id})">Add</button>
+      <button onclick="add(${p.id})">Add to Cart</button>
     </div>`;
   });
   document.getElementById("products").innerHTML=html;
-}
-
-function filter(cat){
-  if(cat==="all") render();
-  else render(products.filter(p=>p.cat===cat));
 }
 
 function add(id){
@@ -270,6 +224,7 @@ function add(id){
   if(item) item.qty++;
   else cart.push({...products.find(p=>p.id===id),qty:1});
   update();
+  showToast();
 }
 
 function update(){
@@ -283,6 +238,9 @@ function update(){
       <span onclick="remove(${index})">❌</span>
     </div>`;
   });
+
+  total-=discount;
+
   document.getElementById("cartItems").innerHTML=html;
   document.getElementById("total").innerText=total;
   document.getElementById("count").innerText=count;
@@ -298,27 +256,31 @@ function toggleCart(){
   document.getElementById("cart").classList.toggle("active");
 }
 
-function showCheckout(){
-  document.getElementById("checkout").style.display="block";
-  window.scrollTo(0,document.body.scrollHeight);
+function showToast(){
+  let t=document.getElementById("toast");
+  t.style.display="block";
+  setTimeout(()=>t.style.display="none",2000);
 }
 
-function placeOrder(){
-  alert("Order Placed Successfully!");
-  cart=[];
+function applyCoupon(){
+  let code=document.getElementById("coupon").value;
+  if(code==="LUXE10"){
+    discount=100;
+    alert("Coupon Applied!");
+  }else{
+    alert("Invalid Code");
+  }
   update();
 }
 
-function openModal(img){
-  document.getElementById("modal").style.display="flex";
-  document.getElementById("modalImg").src=img;
-}
-function closeModal(){
-  document.getElementById("modal").style.display="none";
-}
-
-function scrollToSection(){
-  window.scrollTo({top:500,behavior:"smooth"});
+function checkout(){
+  let message="Order Details:%0A";
+  cart.forEach(i=>{
+    message+=`${i.name} x${i.qty} = ৳${i.price*i.qty}%0A`;
+  });
+  message+=`Total: ৳${document.getElementById("total").innerText}`;
+  
+  window.open(`https://wa.me/${phone}?text=${message}`);
 }
 
 render();
