@@ -3,159 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luxelane BD</title>
+<title>Luxelane BD - Premium</title>
 
 <style>
-:root {
-  --bg: #0a0a0a;
-  --card: #111;
-  --neon: #00f5ff;
-  --text: #fff;
+:root{
+  --bg:#050505;
+  --card:#0f0f0f;
+  --neon:linear-gradient(45deg,#00f5ff,#7b61ff);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:system-ui;
 }
 
-body {
-  background: var(--bg);
-  color: var(--text);
+body{
+  background:var(--bg);
+  color:white;
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 40px;
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--neon);
-}
-
-.nav-links span {
-  margin: 0 15px;
-  cursor: pointer;
-}
-
-.cart-btn {
-  background: var(--neon);
-  color: #000;
-  padding: 8px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-/* Sections */
-.section {
-  display: none;
-  padding: 40px;
-}
-
-.active {
-  display: block;
-}
-
-/* Hero */
-.hero {
-  text-align: center;
-  padding: 100px 20px;
-}
-
-.hero h1 {
-  font-size: 50px;
-  color: var(--neon);
-}
-
-/* Products */
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap: 20px;
-}
-
-.product {
-  background: var(--card);
-  padding: 15px;
-  border-radius: 10px;
-  transition: 0.3s;
-}
-
-.product:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 20px var(--neon);
-}
-
-.product img {
-  width: 100%;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-button {
-  background: var(--neon);
-  border: none;
-  padding: 8px;
-  width: 100%;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-/* Cart */
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-}
-
-/* Checkout */
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  background: #222;
-  border: none;
-  color: white;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 20px;
-  background: #000;
-  margin-top: 40px;
-}
-
-/* Modal Image */
-.modal {
-  display: none;
-  position: fixed;
-  top:0;
-  left:0;
+/* NAVBAR */
+.navbar{
+  position:fixed;
   width:100%;
+  top:0;
+  display:flex;
+  justify-content:space-between;
+  padding:15px 30px;
+  backdrop-filter:blur(15px);
+  background:rgba(0,0,0,0.6);
+  z-index:1000;
+}
+
+.logo{
+  font-size:20px;
+  font-weight:bold;
+  background:var(--neon);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.nav a{
+  margin:0 10px;
+  cursor:pointer;
+}
+
+.cart-icon{
+  cursor:pointer;
+}
+
+/* HERO */
+.hero{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.hero h1{
+  font-size:50px;
+  background:var(--neon);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+/* PRODUCTS */
+.container{
+  padding:100px 20px 40px;
+}
+
+.filters{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.filters button{
+  margin:5px;
+  padding:8px 15px;
+  background:#111;
+  border:none;
+  color:white;
+  cursor:pointer;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.product{
+  background:var(--card);
+  padding:15px;
+  border-radius:15px;
+  transition:.3s;
+}
+
+.product:hover{
+  transform:translateY(-10px);
+  box-shadow:0 0 20px #00f5ff33;
+}
+
+.product img{
+  width:100%;
+  border-radius:10px;
+}
+
+.product button{
+  width:100%;
+  padding:8px;
+  margin-top:10px;
+  background:var(--neon);
+  border:none;
+  cursor:pointer;
+}
+
+/* CART DRAWER */
+.cart{
+  position:fixed;
+  right:-400px;
+  top:0;
+  width:350px;
   height:100%;
-  background: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
+  background:#111;
+  padding:20px;
+  transition:.3s;
+  z-index:999;
 }
 
-.modal img {
-  width: 80%;
-  max-width: 400px;
+.cart.active{right:0;}
+
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0;
 }
 
-/* Responsive */
+/* CHECKOUT */
+.checkout{
+  display:none;
+  padding:100px 20px;
+}
+
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  background:#222;
+  border:none;
+  color:white;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:#000a;
+}
+
+.modal img{
+  width:300px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:20px;
+  background:#000;
+}
+
+/* MOBILE */
 @media(max-width:600px){
-  .hero h1 {font-size: 30px;}
+  .hero h1{font-size:30px;}
 }
 </style>
 </head>
@@ -164,128 +190,139 @@ footer {
 
 <div class="navbar">
   <div class="logo">Luxelane BD</div>
-  <div class="nav-links">
-    <span onclick="showPage('home')">Home</span>
-    <span onclick="showPage('shop')">Shop</span>
-    <span onclick="showPage('cart')">Cart</span>
+  <div class="nav">
+    <a onclick="scrollToSection()">Shop</a>
   </div>
-  <div class="cart-btn" onclick="showPage('cart')">
-    🛒 <span id="count">0</span>
-  </div>
+  <div class="cart-icon" onclick="toggleCart()">🛒 <span id="count">0</span></div>
 </div>
 
-<!-- HOME -->
-<div id="home" class="section active">
-  <div class="hero">
-    <h1>Luxury Fashion Redefined</h1>
-    <p>Premium clothing for modern lifestyle</p>
-  </div>
+<div class="hero">
+  <h1>Luxury Fashion Experience</h1>
 </div>
 
-<!-- SHOP -->
-<div id="shop" class="section">
-  <h2>Our Collection</h2>
+<div class="container">
+  <div class="filters">
+    <button onclick="filter('all')">All</button>
+    <button onclick="filter('new')">New</button>
+    <button onclick="filter('popular')">Popular</button>
+  </div>
+
   <div class="products" id="products"></div>
 </div>
 
 <!-- CART -->
-<div id="cart" class="section">
+<div class="cart" id="cart">
   <h2>Your Cart</h2>
-  <div id="cart-items"></div>
+  <div id="cartItems"></div>
   <h3>Total: ৳<span id="total">0</span></h3>
-  <button onclick="showPage('checkout')">Checkout</button>
+  <button onclick="showCheckout()">Checkout</button>
 </div>
 
 <!-- CHECKOUT -->
-<div id="checkout" class="section">
+<div class="checkout" id="checkout">
   <h2>Checkout</h2>
-  <input placeholder="Full Name">
-  <input placeholder="Phone Number">
+  <input placeholder="Full Name" required>
+  <input placeholder="Phone Number" required>
   <textarea placeholder="Address"></textarea>
-  <button onclick="alert('Order Placed!')">Place Order</button>
+  <button onclick="placeOrder()">Place Order</button>
 </div>
 
-<footer>
-  © 2026 Luxelane BD | Premium Fashion
-</footer>
-
-<!-- Image Modal -->
+<!-- MODAL -->
 <div class="modal" id="modal" onclick="closeModal()">
-  <img id="modal-img">
+  <img id="modalImg">
 </div>
+
+<footer>© Luxelane BD Premium</footer>
 
 <script>
-const products = [
-  {id:1,name:"Luxury Panjabi",price:1500,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"},
-  {id:2,name:"Streetwear Hoodie",price:2000,img:"https://images.unsplash.com/photo-1520975922323-4506c66a7df2"},
-  {id:3,name:"Classic Shirt",price:1200,img:"https://images.unsplash.com/photo-1521336575822-6da63fb45455"},
-  {id:4,name:"Denim Jacket",price:2500,img:"https://images.unsplash.com/photo-1495107334309-fcf20504a5ab"},
-  {id:5,name:"Minimal T-Shirt",price:800,img:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f"},
-  {id:6,name:"Premium Blazer",price:3500,img:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0"}
+let products=[
+{id:1,name:"Panjabi",price:1500,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf",cat:"new"},
+{id:2,name:"Hoodie",price:2000,img:"https://images.unsplash.com/photo-1520975922323-4506c66a7df2",cat:"popular"},
+{id:3,name:"Shirt",price:1200,img:"https://images.unsplash.com/photo-1521336575822-6da63fb45455",cat:"new"},
+{id:4,name:"Jacket",price:2500,img:"https://images.unsplash.com/photo-1495107334309-fcf20504a5ab",cat:"popular"},
+{id:5,name:"T-Shirt",price:800,img:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f",cat:"new"},
+{id:6,name:"Blazer",price:3500,img:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0",cat:"popular"}
 ];
 
-let cart = [];
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-function showPage(page){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(page).classList.add('active');
-}
-
-function renderProducts(){
+function render(list=products){
   let html="";
-  products.forEach(p=>{
+  list.forEach(p=>{
     html+=`
-      <div class="product">
-        <img src="${p.img}" onclick="openModal('${p.img}')">
-        <h3>${p.name}</h3>
-        <p>৳${p.price}</p>
-        <button onclick="addToCart(${p.id})">Add to Cart</button>
-      </div>
-    `;
+    <div class="product">
+      <img src="${p.img}" onclick="openModal('${p.img}')">
+      <h3>${p.name}</h3>
+      <p>৳${p.price}</p>
+      <button onclick="add(${p.id})">Add</button>
+    </div>`;
   });
   document.getElementById("products").innerHTML=html;
 }
 
-function addToCart(id){
-  const p = products.find(x=>x.id===id);
-  cart.push(p);
-  updateCart();
+function filter(cat){
+  if(cat==="all") render();
+  else render(products.filter(p=>p.cat===cat));
 }
 
-function updateCart(){
-  let html="";
-  let total=0;
+function add(id){
+  let item=cart.find(i=>i.id===id);
+  if(item) item.qty++;
+  else cart.push({...products.find(p=>p.id===id),qty:1});
+  update();
+}
 
-  cart.forEach((item,i)=>{
-    total+=item.price;
+function update(){
+  let html="",total=0,count=0;
+  cart.forEach((i,index)=>{
+    total+=i.price*i.qty;
+    count+=i.qty;
     html+=`
-      <div class="cart-item">
-        ${item.name} - ৳${item.price}
-        <span onclick="removeItem(${i})" style="cursor:pointer;color:red;">X</span>
-      </div>
-    `;
+    <div class="cart-item">
+      ${i.name} x${i.qty}
+      <span onclick="remove(${index})">❌</span>
+    </div>`;
   });
-
-  document.getElementById("cart-items").innerHTML=html;
+  document.getElementById("cartItems").innerHTML=html;
   document.getElementById("total").innerText=total;
-  document.getElementById("count").innerText=cart.length;
+  document.getElementById("count").innerText=count;
+  localStorage.setItem("cart",JSON.stringify(cart));
 }
 
-function removeItem(i){
+function remove(i){
   cart.splice(i,1);
-  updateCart();
+  update();
+}
+
+function toggleCart(){
+  document.getElementById("cart").classList.toggle("active");
+}
+
+function showCheckout(){
+  document.getElementById("checkout").style.display="block";
+  window.scrollTo(0,document.body.scrollHeight);
+}
+
+function placeOrder(){
+  alert("Order Placed Successfully!");
+  cart=[];
+  update();
 }
 
 function openModal(img){
   document.getElementById("modal").style.display="flex";
-  document.getElementById("modal-img").src=img;
+  document.getElementById("modalImg").src=img;
 }
-
 function closeModal(){
   document.getElementById("modal").style.display="none";
 }
 
-renderProducts();
+function scrollToSection(){
+  window.scrollTo({top:500,behavior:"smooth"});
+}
+
+render();
+update();
 </script>
 
 </body>
