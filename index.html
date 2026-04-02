@@ -8,109 +8,177 @@
 <style>
 :root{
   --primary:#111;
-  --accent:#007aff;
-  --bg:#f5f5f7;
-  --card:#fff;
+  --accent:#e8b923;
+  --bg:#f9f9f9;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
 
-body{background:var(--bg);color:#111;}
+body{background:var(--bg);color:#111}
 
+/* NAV */
 .navbar{
-  display:flex;justify-content:space-between;
-  padding:15px 30px;background:#fff;
-  position:sticky;top:0;box-shadow:0 2px 10px rgba(0,0,0,.05);
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+  background:white;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  position:sticky;top:0;z-index:1000;
 }
 
-.logo{font-weight:bold;font-size:20px;}
-.nav a{margin:0 10px;cursor:pointer;}
+.logo{font-weight:bold;font-size:20px}
 
-.container{padding:30px;}
+/* MENU */
+.menu-btn{font-size:20px;cursor:pointer}
 
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-}
-
-.product{
-  background:var(--card);
-  padding:15px;border-radius:12px;
-  box-shadow:0 5px 15px rgba(0,0,0,.05);
+.menu{
+  position:fixed;
+  left:-250px;
+  top:0;
+  width:250px;
+  height:100%;
+  background:white;
+  padding:20px;
   transition:.3s;
 }
 
-.product:hover{transform:translateY(-5px);}
+.menu.active{left:0;}
 
-.product img{width:100%;border-radius:10px;}
+.menu a{
+  display:block;
+  margin:15px 0;
+  cursor:pointer;
+}
 
-button{
-  width:100%;padding:10px;
-  border:none;border-radius:8px;
-  background:var(--accent);color:#fff;
-  margin-top:10px;cursor:pointer;
+/* HERO */
+.hero{
+  text-align:center;
+  padding:60px 20px;
+  background:#fff;
+}
+
+.hero h1{font-size:30px}
+
+/* PRODUCTS */
+.container{padding:20px}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:15px;
+}
+
+.product{
+  background:white;
+  padding:10px;
+  border-radius:10px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.product img{width:100%;border-radius:10px}
+
+.product button{
+  width:100%;
+  margin-top:5px;
+  padding:8px;
+  background:var(--primary);
+  color:white;
+  border:none;
+  cursor:pointer;
 }
 
 /* CART */
 .cart{
-  position:fixed;right:-350px;top:0;
-  width:320px;height:100%;
-  background:#fff;padding:20px;
-  box-shadow:-2px 0 10px rgba(0,0,0,.1);
+  position:fixed;
+  right:-300px;
+  top:0;
+  width:300px;
+  height:100%;
+  background:white;
+  padding:15px;
   transition:.3s;
 }
+
 .cart.active{right:0;}
 
 .cart-item{
-  display:flex;justify-content:space-between;
+  display:flex;
+  justify-content:space-between;
   margin:10px 0;
 }
 
-/* ADMIN */
-.admin{
-  margin-top:40px;
-  background:#fff;padding:20px;
-  border-radius:10px;
-}
-
+/* FORM */
 input{
-  width:100%;padding:10px;margin:8px 0;
-  border:1px solid #ddd;border-radius:8px;
+  width:100%;
+  padding:10px;
+  margin:8px 0;
 }
 
-/* CHECKOUT */
-.checkout{
-  margin-top:20px;
+/* BUTTON */
+.btn{
+  width:100%;
+  padding:10px;
+  background:var(--accent);
+  border:none;
+  cursor:pointer;
 }
 
+/* FOOTER */
 footer{
   text-align:center;
-  padding:20px;margin-top:30px;
+  padding:20px;
+  background:white;
+  margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- MENU -->
+<div class="menu" id="menu">
+  <a onclick="showPage('home')">Home</a>
+  <a onclick="showPage('shop')">Shop</a>
+  <a onclick="showPage('contact')">Contact</a>
+</div>
+
+<!-- NAV -->
 <div class="navbar">
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
   <div class="logo">Luxelane BD</div>
-  <div class="nav">
-    <a onclick="toggleCart()">Cart (<span id="count">0</span>)</a>
+  <div onclick="toggleCart()">🛒 (<span id="count">0</span>)</div>
+</div>
+
+<!-- HOME -->
+<div id="home">
+  <div class="hero">
+    <h1>Premium Fashion For You</h1>
+    <p>Luxury Collection by Luxelane BD</p>
   </div>
 </div>
 
-<div class="container">
-  <h2>Our Collection</h2>
-  <div class="products" id="products"></div>
+<!-- SHOP -->
+<div id="shop" style="display:none;">
+  <div class="container">
+    <h2>Shop</h2>
+    <div class="products" id="products"></div>
+  </div>
+</div>
 
-  <!-- ADMIN PANEL -->
-  <div class="admin">
-    <h3>Add Product (Admin)</h3>
-    <input id="name" placeholder="Product Name">
-    <input id="price" placeholder="Price">
-    <input id="img" placeholder="Image URL">
-    <button onclick="addProduct()">Add Product</button>
+<!-- CONTACT -->
+<div id="contact" style="display:none;">
+  <div class="container">
+    <h2>Contact / Order</h2>
+    <input id="name" placeholder="Name">
+    <input id="phone" placeholder="Phone">
+    <input id="address" placeholder="Address">
+    <button class="btn" onclick="orderWhatsApp()">Order via WhatsApp</button>
+
+    <h3 style="margin-top:20px;">Add Product (Admin)</h3>
+    <input id="pname" placeholder="Product Name">
+    <input id="pprice" placeholder="Price">
+    <input id="pimg" placeholder="Image URL">
+    <button class="btn" onclick="addProduct()">Add Product</button>
   </div>
 </div>
 
@@ -119,105 +187,93 @@ footer{
   <h3>Your Cart</h3>
   <div id="cartItems"></div>
   <h4>Total: ৳<span id="total">0</span></h4>
-
-  <div class="checkout">
-    <input id="custName" placeholder="Your Name">
-    <input id="phone" placeholder="Phone">
-    <input id="address" placeholder="Address">
-    <button onclick="orderWhatsApp()">Order via WhatsApp</button>
-  </div>
+  <button class="btn" onclick="goCheckout()">Checkout</button>
 </div>
 
 <footer>© Luxelane BD</footer>
 
 <script>
 let products=JSON.parse(localStorage.getItem("products"))||[
-{name:"Panjabi",price:1500,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"},
-{name:"Hoodie",price:2000,img:"https://images.unsplash.com/photo-1520975922323-4506c66a7df2"},
-{name:"Shirt",price:1200,img:"https://images.unsplash.com/photo-1521336575822-6da63fb45455"},
-{name:"Jacket",price:2500,img:"https://images.unsplash.com/photo-1495107334309-fcf20504a5ab"},
-{name:"T-Shirt",price:800,img:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f"},
-{name:"Blazer",price:3500,img:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0"}
+{id:1,name:"Panjabi",price:1500,img:"https://via.placeholder.com/200"},
+{id:2,name:"Hoodie",price:2000,img:"https://via.placeholder.com/200"}
 ];
 
 let cart=[];
 
 function render(){
   let html="";
-  products.forEach((p,i)=>{
+  products.forEach(p=>{
     html+=`
     <div class="product">
       <img src="${p.img}">
       <h4>${p.name}</h4>
       <p>৳${p.price}</p>
-      <button onclick="add(${i})">Add to Cart</button>
+      <button onclick="add(${p.id})">Add to Cart</button>
     </div>`;
   });
   document.getElementById("products").innerHTML=html;
 }
 
-function add(i){
-  let item=cart.find(x=>x.i===i);
-  if(item) item.qty++;
-  else cart.push({i,qty:1});
-  updateCart();
+function add(id){
+  let p=products.find(x=>x.id===id);
+  cart.push(p);
+  update();
 }
 
-function updateCart(){
-  let html="",total=0,count=0;
-
-  cart.forEach((c,index)=>{
-    let p=products[c.i];
-    total+=p.price*c.qty;
-    count+=c.qty;
-
-    html+=`
-    <div class="cart-item">
-      ${p.name} x${c.qty}
-      <span onclick="remove(${index})">❌</span>
-    </div>`;
+function update(){
+  let html="",total=0;
+  cart.forEach((i)=>{
+    total+=i.price;
+    html+=`<div class="cart-item">${i.name} ৳${i.price}</div>`;
   });
-
   document.getElementById("cartItems").innerHTML=html;
   document.getElementById("total").innerText=total;
-  document.getElementById("count").innerText=count;
-}
-
-function remove(i){
-  cart.splice(i,1);
-  updateCart();
+  document.getElementById("count").innerText=cart.length;
 }
 
 function toggleCart(){
   document.getElementById("cart").classList.toggle("active");
 }
 
-/* ADMIN ADD PRODUCT */
-function addProduct(){
-  let name=document.getElementById("name").value;
-  let price=document.getElementById("price").value;
-  let img=document.getElementById("img").value;
-
-  products.push({name,price:Number(price),img});
-  localStorage.setItem("products",JSON.stringify(products));
-  render();
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("active");
 }
 
-/* WHATSAPP ORDER */
+function showPage(page){
+  ["home","shop","contact"].forEach(id=>{
+    document.getElementById(id).style.display="none";
+  });
+  document.getElementById(page).style.display="block";
+}
+
+function goCheckout(){
+  showPage('contact');
+}
+
 function orderWhatsApp(){
-  let name=document.getElementById("custName").value;
+  let name=document.getElementById("name").value;
   let phone=document.getElementById("phone").value;
   let address=document.getElementById("address").value;
 
-  let msg="🛍️ *New Order - Luxelane BD*%0A";
-  cart.forEach(c=>{
-    let p=products[c.i];
-    msg+=`${p.name} x${c.qty} - ৳${p.price*c.qty}%0A`;
+  let msg="Order Details:%0A";
+  cart.forEach(i=>{
+    msg+=i.name+" - "+i.price+"৳%0A";
   });
 
-  msg+=`%0A👤 Name: ${name}%0A📞 Phone: ${phone}%0A📍 Address: ${address}`;
+  msg+=`Name: ${name}%0APhone: ${phone}%0AAddress: ${address}`;
 
   window.open(`https://wa.me/8801837977346?text=${msg}`);
+}
+
+function addProduct(){
+  let name=document.getElementById("pname").value;
+  let price=document.getElementById("pprice").value;
+  let img=document.getElementById("pimg").value;
+
+  products.push({id:Date.now(),name,price,img});
+  localStorage.setItem("products",JSON.stringify(products));
+  render();
+  alert("Product Added!");
 }
 
 render();
