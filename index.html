@@ -5,98 +5,164 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Luxelane BD</title>
 
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-:root{
-  --primary:#111;
-  --accent:#e8b923;
-  --bg:#f9f9f9;
+/* ================= GLOBAL ================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{
+  background:#ffffff;
+  color:#111;
+}
 
-body{background:var(--bg);color:#111}
+a{text-decoration:none;color:inherit}
 
-/* NAV */
+/* ================= NAVBAR ================= */
 .navbar{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:#fff;
   display:flex;
   justify-content:space-between;
-  padding:15px;
-  background:white;
+  align-items:center;
+  padding:15px 20px;
   box-shadow:0 2px 10px rgba(0,0,0,0.05);
-  position:sticky;top:0;z-index:1000;
+  z-index:1000;
 }
 
-.logo{font-weight:bold;font-size:20px}
-
-/* MENU */
-.menu-btn{font-size:20px;cursor:pointer}
-
-.menu{
-  position:fixed;
-  left:-250px;
-  top:0;
-  width:250px;
-  height:100%;
-  background:white;
-  padding:20px;
-  transition:.3s;
+.logo{
+  font-weight:600;
+  font-size:18px;
 }
 
-.menu.active{left:0;}
-
-.menu a{
-  display:block;
-  margin:15px 0;
+.menu-btn{
+  font-size:22px;
   cursor:pointer;
 }
 
-/* HERO */
-.hero{
-  text-align:center;
-  padding:60px 20px;
+/* ================= SIDE MENU ================= */
+.side-menu{
+  position:fixed;
+  top:0;
+  left:-250px;
+  width:250px;
+  height:100%;
   background:#fff;
+  box-shadow:2px 0 20px rgba(0,0,0,0.1);
+  padding:30px 20px;
+  transition:.4s;
+  z-index:2000;
 }
 
-.hero h1{font-size:30px}
+.side-menu.active{left:0;}
 
-/* PRODUCTS */
-.container{padding:20px}
+.side-menu a{
+  display:block;
+  margin:20px 0;
+  font-size:18px;
+  transition:.3s;
+}
+
+.side-menu a:hover{
+  transform:translateX(10px);
+}
+
+/* ================= HERO ================= */
+.hero{
+  padding:120px 20px 60px;
+  text-align:center;
+}
+
+.hero h1{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  color:#777;
+}
+
+/* ================= PRODUCTS ================= */
+.container{
+  padding:20px;
+}
 
 .products{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:15px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
 }
 
 .product{
-  background:white;
-  padding:10px;
-  border-radius:10px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+  transition:.3s;
 }
 
-.product img{width:100%;border-radius:10px}
+.product:hover{
+  transform:translateY(-5px);
+}
 
-.product button{
+.product img{
   width:100%;
-  margin-top:5px;
-  padding:8px;
-  background:var(--primary);
-  color:white;
-  border:none;
-  cursor:pointer;
+  transition:.4s;
 }
 
-/* CART */
+.product:hover img{
+  transform:scale(1.05);
+}
+
+.product-info{
+  padding:15px;
+}
+
+.product h3{
+  font-size:16px;
+}
+
+.product p{
+  margin:5px 0;
+  color:#666;
+}
+
+.btn{
+  display:inline-block;
+  width:100%;
+  padding:10px;
+  border:none;
+  background:#111;
+  color:#fff;
+  border-radius:8px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.btn:hover{
+  background:#444;
+}
+
+/* ================= CART ================= */
 .cart{
   position:fixed;
-  right:-300px;
+  right:-350px;
   top:0;
-  width:300px;
+  width:320px;
   height:100%;
-  background:white;
-  padding:15px;
-  transition:.3s;
+  background:#fff;
+  box-shadow:-2px 0 20px rgba(0,0,0,0.1);
+  padding:20px;
+  transition:.4s;
+  z-index:2000;
 }
 
 .cart.active{right:0;}
@@ -107,113 +173,152 @@ body{background:var(--bg);color:#111}
   margin:10px 0;
 }
 
-/* FORM */
-input{
-  width:100%;
-  padding:10px;
-  margin:8px 0;
+.total{
+  margin-top:10px;
+  font-weight:600;
 }
 
-/* BUTTON */
-.btn{
-  width:100%;
-  padding:10px;
-  background:var(--accent);
-  border:none;
-  cursor:pointer;
+/* ================= CHECKOUT ================= */
+.checkout{
+  display:none;
+  padding:20px;
 }
 
-/* FOOTER */
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+/* ================= FOOTER ================= */
 footer{
   text-align:center;
   padding:20px;
-  background:white;
-  margin-top:20px;
+  margin-top:40px;
+  background:#f9f9f9;
+}
+
+/* ================= WHATSAPP ================= */
+.whatsapp{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25D366;
+  color:#fff;
+  padding:12px 15px;
+  border-radius:50%;
+  font-size:20px;
+}
+
+/* ================= ANIMATION ================= */
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s;
+}
+
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:600px){
+  .hero h1{font-size:28px;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- MENU -->
-<div class="menu" id="menu">
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="menu-btn" onclick="toggleMenu()">⋮</div>
+  <div class="logo">Luxelane BD</div>
+  <div onclick="toggleCart()">🛒 <span id="count">0</span></div>
+</div>
+
+<!-- SIDE MENU -->
+<div class="side-menu" id="menu">
   <a onclick="showPage('home')">Home</a>
   <a onclick="showPage('shop')">Shop</a>
   <a onclick="showPage('contact')">Contact</a>
 </div>
 
-<!-- NAV -->
-<div class="navbar">
-  <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  <div class="logo">Luxelane BD</div>
-  <div onclick="toggleCart()">🛒 (<span id="count">0</span>)</div>
-</div>
-
 <!-- HOME -->
 <div id="home">
-  <div class="hero">
-    <h1>Premium Fashion For You</h1>
-    <p>Luxury Collection by Luxelane BD</p>
+  <div class="hero reveal">
+    <h1>Luxury Minimal Fashion</h1>
+    <p>Premium Clothing for Modern Style</p>
   </div>
 </div>
 
 <!-- SHOP -->
-<div id="shop" style="display:none;">
-  <div class="container">
-    <h2>Shop</h2>
-    <div class="products" id="products"></div>
-  </div>
-</div>
-
-<!-- CONTACT -->
-<div id="contact" style="display:none;">
-  <div class="container">
-    <h2>Contact / Order</h2>
-    <input id="name" placeholder="Name">
-    <input id="phone" placeholder="Phone">
-    <input id="address" placeholder="Address">
-    <button class="btn" onclick="orderWhatsApp()">Order via WhatsApp</button>
-
-    <h3 style="margin-top:20px;">Add Product (Admin)</h3>
-    <input id="pname" placeholder="Product Name">
-    <input id="pprice" placeholder="Price">
-    <input id="pimg" placeholder="Image URL">
-    <button class="btn" onclick="addProduct()">Add Product</button>
-  </div>
+<div id="shop" class="container">
+  <div class="products" id="products"></div>
 </div>
 
 <!-- CART -->
 <div class="cart" id="cart">
-  <h3>Your Cart</h3>
+  <h3>Cart</h3>
   <div id="cartItems"></div>
-  <h4>Total: ৳<span id="total">0</span></h4>
-  <button class="btn" onclick="goCheckout()">Checkout</button>
+  <div class="total">Total: ৳<span id="total">0</span></div>
+  <button class="btn" onclick="showCheckout()">Checkout</button>
 </div>
 
-<footer>© Luxelane BD</footer>
+<!-- CHECKOUT -->
+<div class="checkout" id="checkout">
+  <h3>Checkout</h3>
+  <input placeholder="Full Name">
+  <input placeholder="Phone">
+  <textarea placeholder="Address"></textarea>
+  <button class="btn" onclick="placeOrder()">Place Order</button>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="container">
+  <h2>Contact Us</h2>
+  <p>WhatsApp: 01837977346</p>
+</div>
+
+<footer>© 2026 Luxelane BD</footer>
+
+<!-- WHATSAPP BUTTON -->
+<a class="whatsapp" href="https://wa.me/8801837977346" target="_blank">💬</a>
 
 <script>
-let products=JSON.parse(localStorage.getItem("products"))||[
-{id:1,name:"Panjabi",price:1500,img:"https://via.placeholder.com/200"},
-{id:2,name:"Hoodie",price:2000,img:"https://via.placeholder.com/200"}
+/* PRODUCTS */
+const products=[
+{id:1,name:"Panjabi",price:1500,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"},
+{id:2,name:"Shirt",price:1200,img:"https://images.unsplash.com/photo-1521336575822-6da63fb45455"},
+{id:3,name:"Hoodie",price:2000,img:"https://images.unsplash.com/photo-1520975922323-4506c66a7df2"},
+{id:4,name:"Jacket",price:2500,img:"https://images.unsplash.com/photo-1495107334309-fcf20504a5ab"},
+{id:5,name:"T-Shirt",price:800,img:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f"},
+{id:6,name:"Blazer",price:3500,img:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0"}
 ];
 
 let cart=[];
 
+/* RENDER PRODUCTS */
 function render(){
   let html="";
   products.forEach(p=>{
     html+=`
-    <div class="product">
+    <div class="product reveal">
       <img src="${p.img}">
-      <h4>${p.name}</h4>
-      <p>৳${p.price}</p>
-      <button onclick="add(${p.id})">Add to Cart</button>
+      <div class="product-info">
+        <h3>${p.name}</h3>
+        <p>৳${p.price}</p>
+        <button class="btn" onclick="add(${p.id})">Add to Cart</button>
+      </div>
     </div>`;
   });
   document.getElementById("products").innerHTML=html;
 }
 
+/* CART */
 function add(id){
   let p=products.find(x=>x.id===id);
   cart.push(p);
@@ -222,59 +327,55 @@ function add(id){
 
 function update(){
   let html="",total=0;
-  cart.forEach((i)=>{
+  cart.forEach((i,index)=>{
     total+=i.price;
-    html+=`<div class="cart-item">${i.name} ৳${i.price}</div>`;
+    html+=`<div class="cart-item">${i.name}<span onclick="remove(${index})">✖</span></div>`;
   });
   document.getElementById("cartItems").innerHTML=html;
   document.getElementById("total").innerText=total;
   document.getElementById("count").innerText=cart.length;
 }
 
-function toggleCart(){
-  document.getElementById("cart").classList.toggle("active");
+function remove(i){
+  cart.splice(i,1);
+  update();
 }
 
+/* NAV */
 function toggleMenu(){
   document.getElementById("menu").classList.toggle("active");
 }
 
+function toggleCart(){
+  document.getElementById("cart").classList.toggle("active");
+}
+
 function showPage(page){
-  ["home","shop","contact"].forEach(id=>{
-    document.getElementById(id).style.display="none";
+  document.getElementById("menu").classList.remove("active");
+  window.scrollTo(0,0);
+}
+
+/* CHECKOUT */
+function showCheckout(){
+  document.getElementById("checkout").style.display="block";
+  window.scrollTo(0,document.body.scrollHeight);
+}
+
+function placeOrder(){
+  alert("Order Placed!");
+  cart=[];
+  update();
+}
+
+/* SCROLL ANIMATION */
+window.addEventListener("scroll",()=>{
+  document.querySelectorAll(".reveal").forEach(el=>{
+    let top=el.getBoundingClientRect().top;
+    if(top<window.innerHeight-100){
+      el.classList.add("active");
+    }
   });
-  document.getElementById(page).style.display="block";
-}
-
-function goCheckout(){
-  showPage('contact');
-}
-
-function orderWhatsApp(){
-  let name=document.getElementById("name").value;
-  let phone=document.getElementById("phone").value;
-  let address=document.getElementById("address").value;
-
-  let msg="Order Details:%0A";
-  cart.forEach(i=>{
-    msg+=i.name+" - "+i.price+"৳%0A";
-  });
-
-  msg+=`Name: ${name}%0APhone: ${phone}%0AAddress: ${address}`;
-
-  window.open(`https://wa.me/8801837977346?text=${msg}`);
-}
-
-function addProduct(){
-  let name=document.getElementById("pname").value;
-  let price=document.getElementById("pprice").value;
-  let img=document.getElementById("pimg").value;
-
-  products.push({id:Date.now(),name,price,img});
-  localStorage.setItem("products",JSON.stringify(products));
-  render();
-  alert("Product Added!");
-}
+});
 
 render();
 </script>
