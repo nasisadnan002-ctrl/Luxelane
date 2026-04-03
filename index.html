@@ -5,16 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Luxelane BD</title>
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-/* ================= GLOBAL ================= */
+
+/* ================= BASE ================= */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
+  font-family:'Inter',sans-serif;
 }
 
 body{
@@ -22,77 +23,81 @@ body{
   color:#111;
 }
 
-a{text-decoration:none;color:inherit}
-
 /* ================= NAVBAR ================= */
 .navbar{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:#fff;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   padding:15px 20px;
+  position:sticky;
+  top:0;
+  background:#fff;
   box-shadow:0 2px 10px rgba(0,0,0,0.05);
   z-index:1000;
 }
 
-.logo{
-  font-weight:600;
-  font-size:18px;
-}
-
-.menu-btn{
+/* Hamburger */
+.menu-icon{
   font-size:22px;
   cursor:pointer;
 }
 
-/* ================= SIDE MENU ================= */
-.side-menu{
-  position:fixed;
-  top:0;
-  left:-250px;
-  width:250px;
-  height:100%;
-  background:#fff;
-  box-shadow:2px 0 20px rgba(0,0,0,0.1);
-  padding:30px 20px;
-  transition:.4s;
-  z-index:2000;
+/* Logo */
+.logo{
+  font-weight:600;
+  font-size:20px;
 }
 
-.side-menu.active{left:0;}
-
-.side-menu a{
-  display:block;
-  margin:20px 0;
-  font-size:18px;
+/* Dropdown Menu */
+.menu{
+  position:absolute;
+  top:60px;
+  left:20px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  border-radius:10px;
+  overflow:hidden;
+  transform:scale(0);
+  transform-origin:top left;
   transition:.3s;
 }
 
-.side-menu a:hover{
-  transform:translateX(10px);
+.menu.active{
+  transform:scale(1);
+}
+
+.menu div{
+  padding:12px 20px;
+  cursor:pointer;
+}
+
+.menu div:hover{
+  background:#f5f5f5;
+}
+
+/* Cart */
+.cart-btn{
+  cursor:pointer;
 }
 
 /* ================= HERO ================= */
 .hero{
-  padding:120px 20px 60px;
   text-align:center;
+  padding:80px 20px;
 }
 
 .hero h1{
-  font-size:40px;
-  margin-bottom:10px;
+  font-size:36px;
 }
 
 .hero p{
-  color:#777;
+  color:#666;
+  margin-top:10px;
 }
 
 /* ================= PRODUCTS ================= */
 .container{
-  padding:20px;
+  padding:30px;
 }
 
 .products{
@@ -104,7 +109,7 @@ a{text-decoration:none;color:inherit}
 .product{
   background:#fff;
   border-radius:12px;
-  overflow:hidden;
+  padding:15px;
   box-shadow:0 5px 20px rgba(0,0,0,0.05);
   transition:.3s;
 }
@@ -115,57 +120,42 @@ a{text-decoration:none;color:inherit}
 
 .product img{
   width:100%;
-  transition:.4s;
+  border-radius:10px;
+  transition:.3s;
 }
 
 .product:hover img{
   transform:scale(1.05);
 }
 
-.product-info{
-  padding:15px;
-}
-
 .product h3{
-  font-size:16px;
+  margin:10px 0;
 }
 
-.product p{
-  margin:5px 0;
-  color:#666;
-}
-
-.btn{
-  display:inline-block;
+button{
   width:100%;
   padding:10px;
   border:none;
+  border-radius:8px;
   background:#111;
   color:#fff;
-  border-radius:8px;
   cursor:pointer;
   transition:.3s;
 }
 
-.btn:hover{
-  background:#444;
+button:hover{
+  background:#333;
 }
 
 /* ================= CART ================= */
-.cart{
-  position:fixed;
-  right:-350px;
-  top:0;
-  width:320px;
-  height:100%;
-  background:#fff;
-  box-shadow:-2px 0 20px rgba(0,0,0,0.1);
-  padding:20px;
-  transition:.4s;
-  z-index:2000;
+.section{
+  display:none;
+  padding:30px;
 }
 
-.cart.active{right:0;}
+.active{
+  display:block;
+}
 
 .cart-item{
   display:flex;
@@ -173,31 +163,13 @@ a{text-decoration:none;color:inherit}
   margin:10px 0;
 }
 
-.total{
-  margin-top:10px;
-  font-weight:600;
-}
-
 /* ================= CHECKOUT ================= */
-.checkout{
-  display:none;
-  padding:20px;
-}
-
 input,textarea{
   width:100%;
   padding:10px;
   margin:10px 0;
-  border:1px solid #ddd;
   border-radius:8px;
-}
-
-/* ================= FOOTER ================= */
-footer{
-  text-align:center;
-  padding:20px;
-  margin-top:40px;
-  background:#f9f9f9;
+  border:1px solid #ddd;
 }
 
 /* ================= WHATSAPP ================= */
@@ -206,28 +178,26 @@ footer{
   bottom:20px;
   right:20px;
   background:#25D366;
-  color:#fff;
-  padding:12px 15px;
+  color:white;
+  padding:15px;
   border-radius:50%;
   font-size:20px;
+  cursor:pointer;
 }
 
-/* ================= ANIMATION ================= */
-.reveal{
-  opacity:0;
-  transform:translateY(40px);
-  transition:1s;
-}
-
-.reveal.active{
-  opacity:1;
-  transform:translateY(0);
+/* ================= FOOTER ================= */
+footer{
+  text-align:center;
+  padding:20px;
+  margin-top:30px;
+  color:#777;
 }
 
 /* ================= RESPONSIVE ================= */
 @media(max-width:600px){
-  .hero h1{font-size:28px;}
+  .hero h1{font-size:24px;}
 }
+
 </style>
 </head>
 
@@ -235,61 +205,66 @@ footer{
 
 <!-- NAVBAR -->
 <div class="navbar">
-  <div class="menu-btn" onclick="toggleMenu()">⋮</div>
+  <div class="menu-icon" onclick="toggleMenu()">⋮</div>
   <div class="logo">Luxelane BD</div>
-  <div onclick="toggleCart()">🛒 <span id="count">0</span></div>
+  <div class="cart-btn" onclick="showPage('cart')">🛒 <span id="count">0</span></div>
 </div>
 
-<!-- SIDE MENU -->
-<div class="side-menu" id="menu">
-  <a onclick="showPage('home')">Home</a>
-  <a onclick="showPage('shop')">Shop</a>
-  <a onclick="showPage('contact')">Contact</a>
+<!-- MENU -->
+<div class="menu" id="menu">
+  <div onclick="showPage('home')">Home</div>
+  <div onclick="showPage('shop')">Shop</div>
+  <div onclick="showPage('contact')">Contact</div>
 </div>
 
 <!-- HOME -->
-<div id="home">
+<div id="home" class="active">
   <div class="hero reveal">
-    <h1>Luxury Minimal Fashion</h1>
-    <p>Premium Clothing for Modern Style</p>
+    <h1>Minimal Luxury Fashion</h1>
+    <p>Experience premium style with Luxelane BD</p>
   </div>
 </div>
 
 <!-- SHOP -->
-<div id="shop" class="container">
-  <div class="products" id="products"></div>
+<div id="shop" class="section">
+  <div class="container">
+    <h2>Shop Collection</h2>
+    <div class="products" id="products"></div>
+  </div>
 </div>
 
 <!-- CART -->
-<div class="cart" id="cart">
-  <h3>Cart</h3>
+<div id="cart" class="section">
+  <h2>Your Cart</h2>
   <div id="cartItems"></div>
-  <div class="total">Total: ৳<span id="total">0</span></div>
-  <button class="btn" onclick="showCheckout()">Checkout</button>
+  <h3>Total: ৳<span id="total">0</span></h3>
+  <button onclick="showPage('checkout')">Checkout</button>
 </div>
 
 <!-- CHECKOUT -->
-<div class="checkout" id="checkout">
-  <h3>Checkout</h3>
+<div id="checkout" class="section">
+  <h2>Checkout</h2>
   <input placeholder="Full Name">
-  <input placeholder="Phone">
+  <input placeholder="Phone Number">
   <textarea placeholder="Address"></textarea>
-  <button class="btn" onclick="placeOrder()">Place Order</button>
+  <button onclick="placeOrder()">Place Order</button>
 </div>
 
 <!-- CONTACT -->
-<div id="contact" class="container">
+<div id="contact" class="section">
   <h2>Contact Us</h2>
-  <p>WhatsApp: 01837977346</p>
+  <p>Email: luxelanebd@gmail.com</p>
+  <p>Phone: 01837977346</p>
 </div>
+
+<!-- WHATSAPP -->
+<div class="whatsapp" onclick="openWhatsApp()">💬</div>
 
 <footer>© 2026 Luxelane BD</footer>
 
-<!-- WHATSAPP BUTTON -->
-<a class="whatsapp" href="https://wa.me/8801837977346" target="_blank">💬</a>
-
 <script>
-/* PRODUCTS */
+
+/* ================= PRODUCTS ================= */
 const products=[
 {id:1,name:"Panjabi",price:1500,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"},
 {id:2,name:"Shirt",price:1200,img:"https://images.unsplash.com/photo-1521336575822-6da63fb45455"},
@@ -301,36 +276,39 @@ const products=[
 
 let cart=[];
 
-/* RENDER PRODUCTS */
-function render(){
+/* ================= RENDER ================= */
+function renderProducts(){
   let html="";
   products.forEach(p=>{
     html+=`
     <div class="product reveal">
       <img src="${p.img}">
-      <div class="product-info">
-        <h3>${p.name}</h3>
-        <p>৳${p.price}</p>
-        <button class="btn" onclick="add(${p.id})">Add to Cart</button>
-      </div>
+      <h3>${p.name}</h3>
+      <p>৳${p.price}</p>
+      <button onclick="addToCart(${p.id})">Add to Cart</button>
     </div>`;
   });
   document.getElementById("products").innerHTML=html;
 }
 
-/* CART */
-function add(id){
-  let p=products.find(x=>x.id===id);
+/* ================= CART ================= */
+function addToCart(id){
+  const p=products.find(x=>x.id===id);
   cart.push(p);
-  update();
+  updateCart();
 }
 
-function update(){
+function updateCart(){
   let html="",total=0;
-  cart.forEach((i,index)=>{
-    total+=i.price;
-    html+=`<div class="cart-item">${i.name}<span onclick="remove(${index})">✖</span></div>`;
+  cart.forEach((item,i)=>{
+    total+=item.price;
+    html+=`
+    <div class="cart-item">
+      ${item.name} - ৳${item.price}
+      <span onclick="remove(${i})">❌</span>
+    </div>`;
   });
+
   document.getElementById("cartItems").innerHTML=html;
   document.getElementById("total").innerText=total;
   document.getElementById("count").innerText=cart.length;
@@ -338,46 +316,48 @@ function update(){
 
 function remove(i){
   cart.splice(i,1);
-  update();
+  updateCart();
 }
 
-/* NAV */
+/* ================= NAVIGATION ================= */
+function showPage(page){
+  document.querySelectorAll('.section,#home').forEach(s=>s.style.display="none");
+  document.getElementById(page).style.display="block";
+  toggleMenu();
+}
+
+/* ================= MENU ================= */
 function toggleMenu(){
   document.getElementById("menu").classList.toggle("active");
 }
 
-function toggleCart(){
-  document.getElementById("cart").classList.toggle("active");
+/* ================= WHATSAPP ================= */
+function openWhatsApp(){
+  window.open("https://wa.me/8801837977346");
 }
 
-function showPage(page){
-  document.getElementById("menu").classList.remove("active");
-  window.scrollTo(0,0);
-}
-
-/* CHECKOUT */
-function showCheckout(){
-  document.getElementById("checkout").style.display="block";
-  window.scrollTo(0,document.body.scrollHeight);
-}
-
+/* ================= ORDER ================= */
 function placeOrder(){
-  alert("Order Placed!");
+  alert("Order placed successfully!");
   cart=[];
-  update();
+  updateCart();
 }
 
-/* SCROLL ANIMATION */
+/* ================= SCROLL ANIMATION ================= */
 window.addEventListener("scroll",()=>{
-  document.querySelectorAll(".reveal").forEach(el=>{
+  document.querySelectorAll('.reveal').forEach(el=>{
     let top=el.getBoundingClientRect().top;
-    if(top<window.innerHeight-100){
-      el.classList.add("active");
+    if(top<window.innerHeight-50){
+      el.style.opacity=1;
+      el.style.transform="translateY(0)";
     }
   });
 });
 
-render();
+/* INIT */
+renderProducts();
+updateCart();
+
 </script>
 
 </body>
