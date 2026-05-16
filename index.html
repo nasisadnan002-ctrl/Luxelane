@@ -5,297 +5,858 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Luxelane BD</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
-  --primary:#111;
-  --light:#f8f8f8;
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#777777;
+  --card:#ffffff;
+  --border:#ececec;
+  --shadow:0 10px 30px rgba(0,0,0,0.06);
+  --radius:20px;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
 
-body{background:#fff;color:#111;}
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+}
 
 /* NAVBAR */
 .navbar{
-  position:sticky;top:0;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:15px 20px;
-  backdrop-filter:blur(10px);
-  background:rgba(255,255,255,0.8);
-  box-shadow:0 2px 15px rgba(0,0,0,0.05);
+  position:sticky;
+  top:0;
   z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 24px;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(0,0,0,0.04);
 }
 
-.menu-icon{cursor:pointer;font-size:22px;}
-.logo{font-weight:600;}
+.left-nav{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:-0.5px;
+}
+
+.menu-btn{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:#f5f5f5;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:0.3s;
+}
+
+.menu-btn:hover{
+  background:#ebebeb;
+}
+
+.menu-dots{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.menu-dots span{
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#111;
+}
 
 .menu{
-  position:absolute;top:60px;left:20px;
-  background:#fff;border-radius:12px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
-  transform:scale(0);transition:.3s;
+  position:absolute;
+  top:70px;
+  left:24px;
+  width:220px;
+  background:#fff;
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  padding:10px;
+  transform:translateY(-10px) scale(0.95);
+  opacity:0;
+  pointer-events:none;
+  transition:0.3s;
 }
-.menu.active{transform:scale(1);}
-.menu div{padding:12px 20px;cursor:pointer;}
-.menu div:hover{background:#f1f1f1;}
+
+.menu.active{
+  transform:translateY(0) scale(1);
+  opacity:1;
+  pointer-events:auto;
+}
+
+.menu a{
+  display:block;
+  text-decoration:none;
+  color:#111;
+  padding:14px;
+  border-radius:14px;
+  transition:0.3s;
+}
+
+.menu a:hover{
+  background:#f7f7f7;
+}
+
+.cart-btn{
+  background:#111;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:0.3s;
+}
+
+.cart-btn:hover{
+  transform:translateY(-2px);
+}
 
 /* HERO */
 .hero{
-  text-align:center;padding:100px 20px;
+  min-height:90vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:60px 8%;
+  gap:40px;
 }
-.hero h1{
-  font-size:40px;
+
+.hero-text h1{
+  font-size:70px;
+  line-height:1.05;
+  letter-spacing:-3px;
+}
+
+.hero-text p{
+  margin-top:20px;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.7;
+  max-width:500px;
+}
+
+.hero-btns{
+  margin-top:35px;
+  display:flex;
+  gap:16px;
+}
+
+.primary-btn{
+  background:#111;
+  color:#fff;
+  padding:16px 24px;
+  border-radius:16px;
+  transition:0.3s;
+}
+
+.primary-btn:hover{
+  transform:translateY(-4px);
+}
+
+.secondary-btn{
+  background:#f3f3f3;
+  padding:16px 24px;
+  border-radius:16px;
+}
+
+.hero-image{
+  position:relative;
+}
+
+.hero-image img{
+  border-radius:30px;
+  box-shadow:var(--shadow);
+}
+
+/* SECTION */
+.section{
+  padding:80px 8%;
+}
+
+.section-title{
+  margin-bottom:40px;
+}
+
+.section-title h2{
+  font-size:42px;
+  letter-spacing:-2px;
+}
+
+.section-title p{
+  color:var(--muted);
+  margin-top:10px;
 }
 
 /* PRODUCTS */
-.container{padding:40px 20px;}
-
-.products{
+.products-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:25px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;
 }
 
-.product{
+.product-card{
   background:#fff;
-  border-radius:15px;
+  border-radius:24px;
   overflow:hidden;
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
-  transition:.3s;
+  box-shadow:var(--shadow);
+  transition:0.4s;
 }
-.product:hover{
+
+.product-card:hover{
   transform:translateY(-8px);
 }
-.product img{
+
+.product-image{
+  overflow:hidden;
+}
+
+.product-image img{
   width:100%;
-  height:260px;
+  height:340px;
   object-fit:cover;
-  transition:.4s;
-}
-.product:hover img{
-  transform:scale(1.1);
+  transition:0.6s;
 }
 
-.product-content{padding:15px;}
+.product-card:hover img{
+  transform:scale(1.08);
+}
 
-button{
+.product-info{
+  padding:20px;
+}
+
+.product-info h3{
+  font-size:20px;
+}
+
+.product-info p{
+  color:var(--muted);
+  margin-top:8px;
+}
+
+.price{
+  margin-top:14px;
+  font-size:20px;
+  font-weight:700;
+}
+
+.add-cart{
+  margin-top:18px;
   width:100%;
-  padding:10px;
-  border:none;
-  border-radius:8px;
   background:#111;
   color:#fff;
-  cursor:pointer;
-  transition:.3s;
+  padding:14px;
+  border-radius:14px;
+  transition:0.3s;
 }
-button:hover{
-  background:#333;
+
+.add-cart:hover{
+  opacity:0.9;
+  transform:translateY(-2px);
 }
 
 /* CART */
-.section{display:none;padding:30px;}
-.active{display:block;}
+.cart-panel{
+  position:fixed;
+  top:0;
+  right:-420px;
+  width:400px;
+  max-width:100%;
+  height:100vh;
+  background:#fff;
+  box-shadow:-10px 0 30px rgba(0,0,0,0.08);
+  z-index:2000;
+  padding:24px;
+  transition:0.4s;
+  display:flex;
+  flex-direction:column;
+}
+
+.cart-panel.active{
+  right:0;
+}
+
+.cart-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.close-cart{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:#f3f3f3;
+}
+
+.cart-items{
+  flex:1;
+  overflow:auto;
+  margin-top:20px;
+}
 
 .cart-item{
-  display:flex;justify-content:space-between;
-  margin:10px 0;
+  display:flex;
+  gap:14px;
+  margin-bottom:20px;
 }
 
-.qty button{
-  width:25px;height:25px;
+.cart-item img{
+  width:80px;
+  height:90px;
+  object-fit:cover;
+  border-radius:14px;
 }
 
-/* INPUT */
-input,textarea{
-  width:100%;padding:10px;margin:10px 0;
-  border-radius:8px;border:1px solid #ddd;
+.cart-item-info{
+  flex:1;
+}
+
+.qty-row{
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.qty-btn{
+  width:28px;
+  height:28px;
+  border-radius:8px;
+  background:#f5f5f5;
+}
+
+.checkout-box{
+  border-top:1px solid #eee;
+  padding-top:20px;
+}
+
+.checkout-btn{
+  width:100%;
+  background:#111;
+  color:#fff;
+  padding:16px;
+  border-radius:16px;
+  margin-top:16px;
+}
+
+/* CHECKOUT */
+.checkout-section{
+  background:#fafafa;
+  border-radius:28px;
+  padding:30px;
+  margin-top:40px;
+}
+
+.form-grid{
+  display:grid;
+  gap:16px;
+}
+
+.form-grid input,
+.form-grid textarea{
+  width:100%;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid #e8e8e8;
+  background:#fff;
+  outline:none;
+}
+
+textarea{
+  resize:none;
+  min-height:120px;
+}
+
+/* ADMIN */
+.admin-box{
+  background:#fafafa;
+  border-radius:28px;
+  padding:30px;
+}
+
+/* FOOTER */
+.footer{
+  padding:60px 8%;
+  text-align:center;
+  color:#777;
 }
 
 /* WHATSAPP */
-.whatsapp{
-  position:fixed;bottom:20px;right:20px;
-  background:#25D366;color:#fff;
-  padding:15px;border-radius:50%;
-  cursor:pointer;
+.whatsapp-btn{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  background:#25D366;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  font-size:28px;
+  box-shadow:0 10px 25px rgba(37,211,102,0.4);
+  z-index:1000;
+  text-decoration:none;
 }
 
 /* REVEAL */
 .reveal{
   opacity:0;
-  transform:translateY(30px);
-  transition:all .6s ease;
+  transform:translateY(40px);
+  transition:1s;
 }
-.reveal.show{
+
+.reveal.active{
   opacity:1;
   transform:translateY(0);
 }
+
+/* RESPONSIVE */
+@media(max-width:900px){
+
+.hero{
+  grid-template-columns:1fr;
+}
+
+.hero-text h1{
+  font-size:52px;
+}
+
+}
+
+@media(max-width:600px){
+
+.hero{
+  padding-top:40px;
+}
+
+.hero-text h1{
+  font-size:40px;
+}
+
+.section-title h2{
+  font-size:32px;
+}
+
+}
+
 </style>
 </head>
-
 <body>
 
-<div class="navbar">
-  <div class="menu-icon" onclick="toggleMenu()">⋮</div>
-  <div class="logo">Luxelane BD</div>
-  <div onclick="showPage('cart')">🛒 <span id="count">0</span></div>
+<!-- NAVBAR -->
+<nav class="navbar">
+
+<div class="left-nav">
+
+<button class="menu-btn" onclick="toggleMenu()">
+<div class="menu-dots">
+<span></span>
+<span></span>
+<span></span>
 </div>
+</button>
+
+<div class="logo">Luxelane BD</div>
+
+</div>
+
+<button class="cart-btn" onclick="toggleCart()">
+🛒 <span id="cart-count">0</span>
+</button>
 
 <div class="menu" id="menu">
-  <div onclick="showPage('home')">Home</div>
-  <div onclick="showPage('shop')">Shop</div>
-  <div onclick="showPage('admin')">Add Product</div>
+<a href="#">Home</a>
+<a href="#products">Shop</a>
+<a href="#contact">Contact</a>
+<a href="#admin">Add Products</a>
 </div>
 
-<div id="home" class="active">
-  <div class="hero reveal">
-    <h1>Luxury Minimal Fashion</h1>
-  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+<div class="hero-text reveal">
+<h1>Luxury Fashion For Modern Lifestyle</h1>
+<p>Minimal premium clothing brand inspired by modern Shopify luxury stores with high-end user experience.</p>
+
+<div class="hero-btns">
+<button class="primary-btn">Shop Collection</button>
+<button class="secondary-btn">Explore</button>
+</div>
 </div>
 
-<div id="shop" class="section">
-  <div class="container">
-    <div class="products" id="products"></div>
-  </div>
+<div class="hero-image reveal">
+<img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop" alt="fashion">
 </div>
 
-<div id="cart" class="section">
-  <h2>Your Cart</h2>
-  <div id="cartItems"></div>
-  <h3>Total: ৳<span id="total">0</span></h3>
-  <button onclick="showPage('checkout')">Checkout</button>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section" id="products">
+
+<div class="section-title reveal">
+<h2>Winning Products</h2>
+<p>High-converting products for Bangladesh fashion market.</p>
 </div>
 
-<div id="checkout" class="section">
-  <h2>Checkout</h2>
-  <input id="name" placeholder="Name">
-  <input id="phone" placeholder="Phone">
-  <textarea id="address" placeholder="Address"></textarea>
-  <button onclick="sendOrder()">Order via WhatsApp</button>
+<div class="products-grid" id="products-grid"></div>
+
+</section>
+
+<!-- CHECKOUT -->
+<section class="section">
+
+<div class="checkout-section reveal">
+
+<div class="section-title">
+<h2>Checkout</h2>
+<p>Fill your information to order.</p>
 </div>
+
+<div class="form-grid">
+<input type="text" id="customer-name" placeholder="Full Name">
+<input type="text" id="customer-phone" placeholder="Phone Number">
+<textarea id="customer-address" placeholder="Address"></textarea>
+<button class="primary-btn" onclick="sendWhatsAppOrder()">Place Order via WhatsApp</button>
+</div>
+
+</div>
+
+</section>
 
 <!-- ADMIN -->
-<div id="admin" class="section">
-  <h2>Add Product</h2>
-  <input id="pname" placeholder="Product Name">
-  <input id="pprice" placeholder="Price">
-  <input id="pimg" placeholder="Image URL">
-  <button onclick="addProduct()">Add Product</button>
+<section class="section" id="admin">
+
+<div class="admin-box reveal">
+
+<div class="section-title">
+<h2>Add Products</h2>
+<p>Add your own products dynamically.</p>
 </div>
 
-<div class="whatsapp" onclick="openWhatsApp()">💬</div>
+<div class="form-grid">
+<input type="text" id="new-name" placeholder="Product Name">
+<input type="number" id="new-price" placeholder="Price">
+<input type="text" id="new-image" placeholder="Image URL">
+<button class="primary-btn" onclick="addProduct()">Add Product</button>
+</div>
+
+</div>
+
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+<div class="section-title reveal">
+<h2>Contact</h2>
+<p>WhatsApp: 01837977346</p>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+© 2026 Luxelane BD — Premium Fashion Store
+</footer>
+
+<!-- WHATSAPP -->
+<a class="whatsapp-btn" href="https://wa.me/8801837977346" target="_blank">
+💬
+</a>
+
+<!-- CART -->
+<div class="cart-panel" id="cart-panel">
+
+<div class="cart-header">
+<h2>Your Cart</h2>
+<button class="close-cart" onclick="toggleCart()">✕</button>
+</div>
+
+<div class="cart-items" id="cart-items"></div>
+
+<div class="checkout-box">
+<h3>Total: ৳<span id="cart-total">0</span></h3>
+<button class="checkout-btn">Proceed Checkout</button>
+</div>
+
+</div>
 
 <script>
 
-let products=JSON.parse(localStorage.getItem("products"))||[
-{id:1,name:"Panjabi",price:1500,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"},
-{id:2,name:"Shirt",price:1200,img:"https://images.unsplash.com/photo-1521336575822-6da63fb45455"},
-{id:3,name:"Hoodie",price:2000,img:"https://images.unsplash.com/photo-1520975922323-4506c66a7df2"},
-{id:4,name:"Jacket",price:2500,img:"https://images.unsplash.com/photo-1495107334309-fcf20504a5ab"},
-{id:5,name:"T-Shirt",price:800,img:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f"},
-{id:6,name:"Blazer",price:3500,img:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0"}
+let products = JSON.parse(localStorage.getItem('luxelane-products')) || [
+{
+  id:1,
+  name:'Premium Oversized Tee',
+  price:1290,
+  image:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200&auto=format&fit=crop'
+},
+{
+  id:2,
+  name:'Luxury Panjabi',
+  price:3490,
+  image:'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=1200&auto=format&fit=crop'
+},
+{
+  id:3,
+  name:'Streetwear Hoodie',
+  price:2590,
+  image:'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200&auto=format&fit=crop'
+},
+{
+  id:4,
+  name:'Minimal Sneakers',
+  price:4290,
+  image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop'
+},
+{
+  id:5,
+  name:'Luxury Cargo Pants',
+  price:2390,
+  image:'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?q=80&w=1200&auto=format&fit=crop'
+},
+{
+  id:6,
+  name:'Premium Co-Ord Set',
+  price:3190,
+  image:'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop'
+}
 ];
 
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let cart = JSON.parse(localStorage.getItem('luxelane-cart')) || [];
 
-function render(){
-  const container=document.getElementById("products");
-  container.innerHTML=products.map(p=>`
-  <div class="product reveal">
-    <img src="${p.img}" loading="lazy">
-    <div class="product-content">
-      <h3>${p.name}</h3>
-      <p>৳${p.price}</p>
-      <button onclick="add(${p.id})">Add to Cart</button>
-    </div>
-  </div>`).join("");
+const productsGrid = document.getElementById('products-grid');
+const cartItems = document.getElementById('cart-items');
+const cartTotal = document.getElementById('cart-total');
+const cartCount = document.getElementById('cart-count');
+
+function renderProducts(){
+
+productsGrid.innerHTML = products.map(product => `
+
+<div class="product-card reveal">
+
+<div class="product-image">
+<img src="${product.image}" loading="lazy" alt="${product.name}">
+</div>
+
+<div class="product-info">
+<h3>${product.name}</h3>
+<p>Premium luxury fashion product.</p>
+<div class="price">৳${product.price}</div>
+<button class="add-cart" onclick="addToCart(${product.id})">Add To Cart</button>
+</div>
+
+</div>
+
+`).join('');
+
+observeReveal();
+
 }
 
-function add(id){
-  let item=cart.find(i=>i.id===id);
-  if(item) item.qty++;
-  else cart.push({...products.find(p=>p.id===id),qty:1});
-  update();
+function addToCart(id){
+
+const product = products.find(item => item.id === id);
+const existing = cart.find(item => item.id === id);
+
+if(existing){
+existing.quantity++;
+}else{
+cart.push({...product, quantity:1});
 }
 
-function update(){
-  let total=0,count=0;
-  const html=cart.map((i,index)=>{
-    total+=i.price*i.qty;
-    count+=i.qty;
-    return `
-    <div class="cart-item">
-      ${i.name} x${i.qty}
-      <button onclick="remove(${index})">X</button>
-    </div>`;
-  }).join("");
+updateCart();
 
-  document.getElementById("cartItems").innerHTML=html;
-  document.getElementById("total").innerText=total;
-  document.getElementById("count").innerText=count;
-
-  localStorage.setItem("cart",JSON.stringify(cart));
 }
 
-function remove(i){
-  cart.splice(i,1);
-  update();
+function updateCart(){
+
+let total = 0;
+let count = 0;
+
+cartItems.innerHTML = cart.map((item,index)=>{
+
+const subtotal = item.price * item.quantity;
+
+total += subtotal;
+count += item.quantity;
+
+return `
+
+<div class="cart-item">
+
+<img src="${item.image}" alt="${item.name}">
+
+<div class="cart-item-info">
+<h4>${item.name}</h4>
+<p>৳${item.price}</p>
+
+<div class="qty-row">
+<button class="qty-btn" onclick="changeQuantity(${index},-1)">-</button>
+<span>${item.quantity}</span>
+<button class="qty-btn" onclick="changeQuantity(${index},1)">+</button>
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}).join('');
+
+cartTotal.textContent = total;
+cartCount.textContent = count;
+
+localStorage.setItem('luxelane-cart', JSON.stringify(cart));
+
 }
 
-function addProduct(){
-  const name=document.getElementById("pname").value;
-  const price=Number(document.getElementById("pprice").value);
-  const img=document.getElementById("pimg").value;
+function changeQuantity(index,change){
 
-  products.push({id:Date.now(),name,price,img});
-  localStorage.setItem("products",JSON.stringify(products));
-  render();
-  alert("Product Added!");
+cart[index].quantity += change;
+
+if(cart[index].quantity <= 0){
+cart.splice(index,1);
 }
 
-function sendOrder(){
-  const name=document.getElementById("name").value;
-  const phone=document.getElementById("phone").value;
-  const address=document.getElementById("address").value;
+updateCart();
 
-  let msg="🛒 *Luxelane BD Order*%0A";
-  cart.forEach(i=>{
-    msg+=`${i.name} x${i.qty} = ৳${i.price*i.qty}%0A`;
-  });
+}
 
-  msg+=`%0ATotal: ৳${cart.reduce((a,b)=>a+b.price*b.qty,0)}%0A`;
-  msg+=`Name: ${name}%0APhone: ${phone}%0AAddress: ${address}`;
+function toggleCart(){
 
-  window.open(`https://wa.me/8801837977346?text=${msg}`);
+document.getElementById('cart-panel').classList.toggle('active');
+
 }
 
 function toggleMenu(){
-  document.getElementById("menu").classList.toggle("active");
+
+document.getElementById('menu').classList.toggle('active');
+
 }
 
-function showPage(p){
-  document.querySelectorAll('.section,#home').forEach(s=>s.style.display="none");
-  document.getElementById(p).style.display="block";
-  toggleMenu();
+function sendWhatsAppOrder(){
+
+const name = document.getElementById('customer-name').value;
+const phone = document.getElementById('customer-phone').value;
+const address = document.getElementById('customer-address').value;
+
+if(!name || !phone || !address){
+alert('Please fill all information');
+return;
 }
 
-function openWhatsApp(){
-  window.open("https://wa.me/8801837977346");
-}
+let message = '🛒 *Luxelane BD Order*%0A%0A';
 
-/* SCROLL ANIMATION */
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting) e.target.classList.add("show");
-  });
+cart.forEach(item=>{
+message += `• ${item.name} x${item.quantity} = ৳${item.price * item.quantity}%0A`;
 });
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
-render();
-update();
+const total = cart.reduce((sum,item)=>sum + item.price * item.quantity,0);
+
+message += `%0A💰 Total: ৳${total}%0A%0A`;
+message += `👤 Name: ${name}%0A`;
+message += `📞 Phone: ${phone}%0A`;
+message += `📍 Address: ${address}`;
+
+window.open(`https://wa.me/8801837977346?text=${message}`,'_blank');
+
+}
+
+function addProduct(){
+
+const name = document.getElementById('new-name').value;
+const price = document.getElementById('new-price').value;
+const image = document.getElementById('new-image').value;
+
+if(!name || !price || !image){
+alert('Please fill all fields');
+return;
+}
+
+products.unshift({
+  id:Date.now(),
+  name,
+  price:Number(price),
+  image
+});
+
+localStorage.setItem('luxelane-products', JSON.stringify(products));
+
+renderProducts();
+
+alert('Product Added Successfully');
+
+}
+
+function observeReveal(){
+
+const reveals = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+entry.target.classList.add('active');
+}
+
+});
+
+},{threshold:0.1});
+
+reveals.forEach(el=>observer.observe(el));
+
+}
+
+renderProducts();
+updateCart();
+observeReveal();
 
 </script>
-
 </body>
 </html>
