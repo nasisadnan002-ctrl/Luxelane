@@ -1,56 +1,284 @@
-meek-bd-ecommerce/
-├── apps/
-│   ├── web/                     # Next.js (App Router) Frontend
-│   │   ├── src/
-│   │   │   ├── app/             # App Router Structure (English/Bangla Localized)
-│   │   │   ├── components/      # Reusable UI Components
-│   │   │   │   ├── 3d/          # React Three Fiber & Drei Canvas Components
-│   │   │   │   ├── common/      # Buttons, Inputs, Glassmorphism Cards
-│   │   │   │   ├── layout/      # Sticky Blur Navbar, Mega Menu, Footer
-│   │   │   │   └── shop/        # Product Cards, Filters, Slide Cart
-│   │   │   ├── hooks/           # Custom React Hooks (useCart, useLenis, useAuth)
-│   │   │   ├── store/           # Zustand State Management
-│   │   │   └── styles/          # Tailwind & Global CSS
-│   └── api/                     # Node.js + Express Backend
-│       ├── src/
-│       │   ├── controllers/     # Business Logic (Order, Auth, Payment)
-│       │   ├── models/          # Mongoose Schemas (Product, User, Order)
-│       │   ├── routes/          # Express API Endpoints
-│       │   ├── middleware/      # Auth, Rate Limiting, Error Handling
-│       │   └── utils/           # SSLCommerz Integration, SMS Gateways (OTP)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEEK BD | Premium Luxury Fashion Studio</title>
+    <!-- Premium Fonts & Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Production Tailwind CSS Engine -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AlpineJS for Instant Reactive State Control -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Lucide Icons Framework -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        meek: {
+                            black: "#0D0D0D",
+                            pure: "#000000",
+                            white: "#FFFFFF",
+                            lightGray: "#F5F5F7",
+                            gray: "#E8E8ED",
+                            darkGray: "#6E6E73",
+                            accent: "#7000FF"
+                        }
+                    },
+                    boxShadow: {
+                        'premium': '0 4px 30px rgba(0, 0, 0, 0.02)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FFFFFF; color: #0D0D0D; overflow-x: hidden; }
+        .glassmorphism { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #F5F5F7; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0D0D0D; border-radius: 2px; }
+    </style>
+</head>
+<body x-data="{ 
+    cartOpen: false, 
+    cartItems: [],
+    shippingFee: 80,
+    selectedColor: 'Onyx Black',
+    selectedHex: '#1A1A1A',
+    selectedSize: '',
+    division: '',
+    district: '',
+    districtsList: [],
+    regionsMatrix: {
+        'Dhaka': ['Dhaka City', 'Gazipur', 'Narayanganj', 'Savar', 'Tangail'],
+        'Chattogram': ['Chattogram City', 'Cox\'s Bazar', 'Cumilla', 'Feni', 'Noakhali'],
+        'Sylhet': ['Sylhet City', 'Moulvibazar', 'Habiganj', 'Sunamganj'],
+        'Rajshahi': ['Rajshahi City', 'Bogra', 'Pabna', 'Natore'],
+        'Khulna': ['Khulna City', 'Jashore', 'Kushtia', 'Satkhira']
+    },
+    updateRegion(div) {
+        this.division = div;
+        this.districtsList = this.regionsMatrix[div] || [];
+        this.shippingFee = div.toLowerCase() === 'dhaka' ? 80 : 150;
+    },
+    addToCart(name, price) {
+        if(!this.selectedSize) { alert('Please select an absolute size configuration variant.'); return; }
+        this.cartItems.push({ name: name, price: price, color: this.selectedColor, hex: this.selectedHex, size: this.selectedSize });
+        this.cartOpen = true;
+    },
+    getCartSubtotal() { return this.cartItems.reduce((acc, item) => acc + item.price, 0); },
+    getCartTotal() { return this.getCartSubtotal() + this.shippingFee; }
+}">
 
-{
-  "name": "meek-web",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@react-three/drei": "^9.105.0",
-    "@react-three/fiber": "^8.16.0",
-    "@studio-freight/lenis": "^1.0.42",
-    "clsx": "^2.1.0",
-    "framer-motion": "^11.0.24",
-    "gsap": "^3.12.5",
-    "lucide-react": "^0.363.0",
-    "next": "^14.1.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.2.2",
-    "three": "^0.163.0",
-    "zustand": "^4.5.2"
-  },
-  "devDependencies": {
-    "@types/node": "^20.11.30",
-    "@types/react": "^18.2.73",
-    "@types/three": "^0.163.0",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.4.3"
-  }
-}
+    <!-- STICKY BLUR NAVBAR -->
+    <nav class="fixed top-0 left-0 w-full z-40 glassmorphism border-b border-meek-gray/40 py-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+            <a href="#" class="text-2xl font-black tracking-[0.25em] uppercase text-meek-black">MEEK</a>
+            <div class="hidden md:flex items-center space-x-10 text-[11px] tracking-widest uppercase font-bold text-meek-black">
+                <a href="#studio" class="hover:text-meek-darkGray transition-colors">Studio 3D</a>
+                <a href="#checkout" class="hover:text-meek-darkGray transition-colors">Direct Checkout</a>
+                <a href="#admin" class="hover:text-meek-darkGray transition-colors">Operations Panel</a>
+            </div>
+            <div class="flex items-center space-x-6 text-meek-black relative">
+                <button class="hover:opacity-60 transition-opacity"><i data-lucide="search" class="w-5 h-5 stroke-[1.5]"></i></button>
+                <button @click="cartOpen = !cartOpen" class="hover:opacity-60 transition-opacity relative">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 stroke-[1.5]"></i>
+                    <span class="absolute -top-1.5 -right-1.5 bg-meek-black text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-black" x-text="cartItems.length">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3D STUDIO & CONFIGURATOR ENGINE -->
+    <section id="studio" class="pt-28 pb-16 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Live 3D Render Port -->
+        <div class="lg:col-span-7 bg-meek-lightGray rounded-3xl min-h-[400px] md:min-h-[550px] flex flex-col items-center justify-center relative p-8 group border border-meek-gray/50 shadow-premium">
+            <!-- Simulated Core 3D Mesh Object Model -->
+            <div class="w-64 h-80 rounded-2xl shadow-2xl transition-all duration-700 transform group-hover:scale-105 group-hover:rotate-3 flex items-center justify-center relative overflow-hidden" :style="'background: ' + selectedHex">
+                <div class="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-white/10 mix-blend-overlay"></div>
+                <span class="font-black text-white/10 text-7xl tracking-widest select-none uppercase font-sans">MEEK</span>
+            </div>
+            <div class="absolute bottom-6 left-6 glassmorphism px-4 py-2 rounded-full text-[10px] font-bold tracking-widest text-meek-black uppercase pointer-events-none">
+                WebGL 3D Core Active
+            </div>
+        </div>
+
+        <!-- Premium Variant Engine Interface -->
+        <div class="lg:col-span-5 space-y-6">
+            <div>
+                <span class="text-[10px] uppercase tracking-widest text-meek-darkGray font-bold">Premium Streetwear Module</span>
+                <h1 class="text-3xl md:text-4xl font-black tracking-tight text-meek-black mt-2 mb-3 uppercase">Mizy Luxury Boxy Hoodie</h1>
+                <div class="text-xl font-bold text-meek-black">৳3,450</div>
+            </div>
+            <hr class="border-meek-gray" />
+            <!-- Color Map Matrix -->
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-widest text-meek-black mb-3">Color Space: <span class="text-meek-darkGray font-medium" x-text="selectedColor"></span></h3>
+                <div class="flex items-center space-x-4">
+                    <button @click="selectedColor = 'Onyx Black'; selectedHex = '#1A1A1A'" class="w-8 h-8 rounded-full border flex items-center justify-center transition-all" :class="selectedColor === 'Onyx Black' ? 'border-meek-black scale-110 shadow-lg' : 'border-transparent'">
+                        <span class="w-6 h-6 rounded-full block bg-[#1A1A1A] border border-black/10"></span>
+                    </button>
+                    <button @click="selectedColor = 'Premium Olive'; selectedHex = '#3B413C'" class="w-8 h-8 rounded-full border flex items-center justify-center transition-all" :class="selectedColor === 'Premium Olive' ? 'border-meek-black scale-110 shadow-lg' : 'border-transparent'">
+                        <span class="w-6 h-6 rounded-full block bg-[#3B413C] border border-black/10"></span>
+                    </button>
+                    <button @click="selectedColor = 'Chalk White'; selectedHex = '#EAEAEA'" class="w-8 h-8 rounded-full border flex items-center justify-center transition-all" :class="selectedColor === 'Chalk White' ? 'border-meek-black scale-110 shadow-lg' : 'border-transparent'">
+                        <span class="w-6 h-6 rounded-full block bg-[#EAEAEA] border border-black/10"></span>
+                    </button>
+                </div>
+            </div>
+            <!-- Size Matrices -->
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-widest text-meek-black mb-3">Select Size</h3>
+                <div class="grid grid-cols-4 gap-2">
+                    <template x-for="size in ['S', 'M', 'L', 'XL']">
+                        <button @click="selectedSize = size" class="py-3 text-center border text-xs font-bold tracking-widest uppercase transition-all" :class="selectedSize === size ? 'bg-meek-black text-white border-meek-black' : 'bg-transparent text-meek-black border-meek-gray hover:border-meek-black'" x-text="size"></button>
+                    </template>
+                </div>
+            </div>
+            <button @click="addToCart('Mizy Luxury Boxy Hoodie', 3450)" class="w-full bg-meek-black text-white py-4 font-bold text-xs tracking-widest uppercase flex items-center justify-center space-x-2 hover:bg-meek-pure transition-colors shadow-premium">
+                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                <span>Add to Bag</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- PREMIUM INTERACTIVE CHECKOUT FUNNEL -->
+    <section id="checkout" class="bg-meek-lightGray/60 border-t border-b border-meek-gray/50 py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto px-6">
+            <div class="lg:col-span-7 space-y-6 glassmorphism p-6 md:p-8 rounded-2xl shadow-premium">
+                <div>
+                    <h2 class="text-lg font-black tracking-widest uppercase mb-1">01. Delivery Coordinates</h2>
+                    <p class="text-[11px] text-meek-darkGray">Direct logistics routing via Pathao Courier and Steadfast systems.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input required type="text" placeholder="Full Name *" class="w-full bg-white/80 border border-meek-gray/60 px-4 py-3 text-xs focus:outline-none focus:border-meek-black" />
+                    <input required type="tel" placeholder="Active Mobile Number *" class="w-full bg-white/80 border border-meek-gray/60 px-4 py-3 text-xs focus:outline-none focus:border-meek-black" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <select required @change="updateRegion($el.value)" class="w-full bg-white/80 border border-meek-gray/60 px-4 py-3 text-xs focus:outline-none focus:border-meek-black">
+                        <option value="">Select Division *</option>
+                        <template x-for="div in Object.keys(regionsMatrix)">
+                            <option :value="div" x-text="div"></option>
+                        </template>
+                    </select>
+                    <select required class="w-full bg-white/80 border border-meek-gray/60 px-4 py-3 text-xs focus:outline-none focus:border-meek-black">
+                        <option value="">Select District *</option>
+                        <template x-for="dist in districtsList">
+                            <option :value="dist" x-text="dist"></option>
+                        </template>
+                    </select>
+                    <input type="text" placeholder="Postal Code" class="w-full bg-white/80 border border-meek-gray/60 px-4 py-3 text-xs focus:outline-none focus:border-meek-black" />
+                </div>
+                <input required type="text" placeholder="House/Holding No, Area Location Details *" class="w-full bg-white/80 border border-meek-gray/60 px-4 py-3 text-xs focus:outline-none focus:border-meek-black" />
+            </div>
+
+            <!-- Realtime Order Valuation Summary Column -->
+            <div class="lg:col-span-5 bg-white border border-meek-gray p-6 md:p-8 flex flex-col justify-between rounded-2xl shadow-premium">
+                <div>
+                    <h2 class="text-lg font-black tracking-widest uppercase mb-6">Manifest Summary</h2>
+                    <div class="space-y-4 max-h-[220px] overflow-y-auto pr-2 custom-scrollbar">
+                        <template x-if="cartItems.length === 0">
+                            <p class="text-xs text-meek-darkGray italic">No active apparel configurations staged in bag.</p>
+                        </template>
+                        <template x-for="item in cartItems">
+                            <div class="flex items-center justify-between border-b border-meek-gray/40 pb-3">
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase x-text" x-text="item.name"></h4>
+                                    <p class="text-[9px] text-meek-darkGray uppercase mt-0.5" x-text="item.color + ' / ' + item.size"></p>
+                                </div>
+                                <span class="text-xs font-bold" x-text="'৳' + item.price"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-meek-gray space-y-3 text-xs">
+                    <div class="flex justify-between text-meek-darkGray"><span>Subtotal Valuation</span><span class="font-bold text-meek-black" x-text="'৳' + getCartSubtotal()">৳0</span></div>
+                    <div class="flex justify-between text-meek-darkGray"><span>Logistics Tariff Matrix</span><span class="font-bold text-meek-black" x-text="'৳' + shippingFee">৳80</span></div>
+                    <div class="flex justify-between text-sm font-black pt-3 border-t border-meek-gray">
+                        <span class="font-black tracking-widest uppercase">Total Valuation</span>
+                        <span x-text="'৳' + getCartTotal()">৳80</span>
+                    </div>
+                    <button class="w-full bg-meek-black text-white text-xs font-bold tracking-widest uppercase py-4 mt-4 hover:bg-meek-pure transition-colors">
+                        Execute Secure Settlement Flow
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADMIN OPERATIONS CONTROL CENTER -->
+    <section id="admin" class="py-16 max-w-7xl mx-auto px-6 space-y-8">
+        <div class="border-b border-meek-gray pb-6">
+            <h2 class="text-xl font-black uppercase tracking-widest">Operations Command Panel</h2>
+            <p class="text-xs text-meek-darkGray">Real-time system telemetry verifying cross-border transactions and inventory statuses.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-meek-lightGray p-6 rounded-xl border border-meek-gray/70">
+                <div class="text-[10px] uppercase font-bold tracking-widest text-meek-darkGray mb-2">Gross Liquidity Flow</div>
+                <div class="text-xl font-black">৳2,450,800</div>
+            </div>
+            <div class="bg-meek-lightGray p-6 rounded-xl border border-meek-gray/70">
+                <div class="text-[10px] uppercase font-bold tracking-widest text-meek-darkGray mb-2">Staged Order Configurations</div>
+                <div class="text-xl font-black">1,142 Logs</div>
+            </div>
+            <div class="bg-meek-lightGray p-6 rounded-xl border border-meek-gray/70">
+                <div class="text-[10px] uppercase font-bold tracking-widest text-meek-darkGray mb-2">Retained Accounts</div>
+                <div class="text-xl font-black">894 Profiles</div>
+            </div>
+            <div class="bg-meek-lightGray p-6 rounded-xl border border-meek-gray/70">
+                <div class="text-[10px] uppercase font-bold tracking-widest text-meek-darkGray mb-2">System Conversion</div>
+                <div class="text-xl font-black">3.42% Ratio</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE CART OVERLAY INTERFACE -->
+    <div x-show="cartOpen" class="fixed inset-0 z-50 overflow-hidden" style="display: none;">
+        <div class="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity" @click="cartOpen = false"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white p-6 flex flex-col justify-between shadow-2xl border-l border-meek-gray">
+                <div>
+                    <div class="flex items-center justify-between pb-6 border-b border-meek-gray">
+                        <h2 class="text-sm font-black uppercase tracking-widest">Staged Bag</h2>
+                        <button @click="cartOpen = false"><i data-lucide="x" class="w-5 h-5 text-meek-black"></i></button>
+                    </div>
+                    <div class="mt-6 space-y-4 overflow-y-auto max-h-[60vh] custom-scrollbar pr-2">
+                        <template x-for="item in cartItems">
+                            <div class="flex items-center justify-between border-b border-meek-gray/40 pb-3">
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase" x-text="item.name"></h4>
+                                    <p class="text-[9px] text-meek-darkGray uppercase mt-0.5" x-text="item.color + ' / ' + item.size"></p>
+                                </div>
+                                <span class="text-xs font-bold" x-text="'৳' + item.price"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div class="border-t border-meek-gray pt-4 space-y-4">
+                    <div class="flex justify-between text-sm font-bold uppercase tracking-widest">
+                        <span>Subtotal Value</span>
+                        <span x-text="'৳' + getCartSubtotal()"></span>
+                    </div>
+                    <a href="#checkout" @click="cartOpen = false" class="w-full block text-center bg-meek-black text-white text-xs font-bold tracking-widest uppercase py-4 hover:bg-meek-pure transition-colors">
+                        Proceed to Order Initialization
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Synchronously resolve visual vector definitions inside DOM trees
+        lucide.createIcons();
+    </script>
+</body>
+</html>
